@@ -147,8 +147,15 @@ export const register = async (
 };
 
 // Thêm hàm logout
-export const logout = () => {
-  document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+export const logout = async () => {
+  try {
+    await api.post("/auth/logout");
+  } catch (error) {
+    console.error("Logout error:", error);
+  } finally {
+    // Xóa token dù API call có thành công hay không
+    document.cookie = "token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  }
 };
 
 // Thêm token vào header cho các request yêu cầu xác thực

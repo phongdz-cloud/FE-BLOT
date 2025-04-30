@@ -40,10 +40,22 @@ export const useAuth = () => {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     console.log("Hook: Handling logout");
-    logout();
-    router.push("/login");
+    try {
+      await logout();
+      toast.success("Đăng xuất thành công", {
+        duration: 3000,
+        position: "top-center",
+      });
+      router.push("/login");
+    } catch (error) {
+      console.error("Logout error:", error);
+      toast.error("Đăng xuất thất bại. Vui lòng thử lại sau.", {
+        duration: 3000,
+        position: "top-center",
+      });
+    }
   };
 
   return {

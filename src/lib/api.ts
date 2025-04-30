@@ -50,6 +50,14 @@ interface SignupResponse {
   roles: string[];
 }
 
+interface User {
+  id: number;
+  username: string;
+  email: string;
+  roles: string[];
+  avatar?: string;
+}
+
 // Hàm helper để xử lý lỗi từ BE
 const handleApiError = (error: unknown): Error => {
   if (axios.isAxiosError(error)) {

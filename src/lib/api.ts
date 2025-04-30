@@ -199,4 +199,16 @@ api.interceptors.response.use(
   }
 );
 
+export const getUserDetails = async () => {
+  try {
+    console.log("API: Getting user details");
+    const response = await api.get("/users/me");
+    console.log("API: User details response", response.data);
+    return response.data;
+  } catch (error) {
+    console.error("API: Error getting user details:", error);
+    throw error;
+  }
+};
+
 export default api;

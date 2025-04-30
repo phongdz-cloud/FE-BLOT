@@ -1,0 +1,90 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+<!--
+title: Quy tắc viết code cho Cursor (Next.js)
+description: Các quy tắc để AI giữ style, tái sử dụng code, viết comment rõ ràng, tránh làm hỏng logic đã có, thêm logging và loại bỏ import không sử dụng.
+-->
+
+# Cursor Rules
+
+## 1. Không sửa code cũ nếu không cần thiết
+
+Chỉ bổ sung tính năng hoặc mở rộng logic mới.  
+**Tránh sửa các đoạn code hiện có**, đặc biệt nếu đã có test hoặc đang ổn định.  
+Ưu tiên viết code mở rộng ở level component/service/api riêng biệt thay vì can thiệp sâu vào component cũ.
+
+✅ Tốt: Tạo một hook mới hoặc API handler riêng.  
+🚫 Không nên: Refactor toàn bộ page hoặc component nếu không có lý do rõ ràng.
+
+---
+
+## 2. Giữ nguyên cấu trúc code hiện tại
+
+Tuân thủ cách tổ chức file, thư mục và cách viết component, API, hook, style,... của dự án.  
+Không thay đổi convention hiện tại hoặc áp dụng style khác nếu không được yêu cầu rõ ràng.
+
+Ví dụ:  
+- Nếu dự án đang dùng `function Component() {}` thì không tự ý đổi sang `const Component = () => {}` (nếu không đồng nhất).
+
+---
+
+## 3. Tuân thủ style và naming convention hiện có
+
+- Sử dụng đặt tên biến, hàm, props phù hợp với convention hiện tại.
+- Tuân thủ chuẩn ESLint/Prettier đã được cấu hình sẵn.
+- Không đổi style code sang cá nhân (vd: spacing, semicolon, single/double quotes...) nếu không được yêu cầu.
+
+---
+
+## 4. Viết comment rõ ràng
+
+Khi thêm logic quan trọng hoặc xử lý đặc biệt, hãy viết comment ngắn gọn và rõ ràng.  
+Tránh comment dư thừa với các đoạn code đã tự nói lên mục đích.
+
+✅ `// Check if user is authenticated before rendering dashboard`  
+🚫 `// Call useAuth()` (quá hiển nhiên)
+
+---
+
+## 5. Thêm logging cho các phần xử lý quan trọng
+
+Ở cả client (browser) và server (API route), hãy thêm logging khi xử lý các logic quan trọng: xác thực, gọi API, cập nhật dữ liệu,...
+
+- Client: dùng `console.log`, `console.error` một cách chọn lọc.
+- Server/API: dùng `console.log` hoặc logger như `winston`, `pino` nếu đã cấu hình.
+
+✅ `console.info("Creating user with email:", email)`  
+✅ `console.error("Error fetching data:", err)`  
+🚫 `console.log("test")` hoặc log spam
+
+---
+
+## 6. Loại bỏ các import không sử dụng
+
+- Loại bỏ tất cả các import không dùng đến để tránh lỗi ESLint và giúp code gọn hơn.
+- Dùng IDE (VSCode), ESLint, hoặc `tsc` để tự động báo lỗi hoặc xóa import thừa.
+
+✅ Không để lại `import React from 'react'` nếu không sử dụng trong file.  
+🚫 Không nên: `import { useEffect } from 'react'` nếu `useEffect` không được gọi.
+
+---
+
+## 7. Ưu tiên tái sử dụng code
+
+- Trước khi viết component hoặc hàm mới, hãy kiểm tra xem đã có function/hook/component tương tự chưa.
+- Nếu viết mới, cần đảm bảo có khả năng tái sử dụng và chia nhỏ nếu cần.
+
+✅ Sử dụng lại `useAuth()` hoặc `fetcher()` nếu đã tồn tại.  
+🚫 Không nên copy-paste logic xử lý auth vào mỗi page riêng lẻ.
+
+---
+
+## 8. Giải thích thay đổi khi cần thiết
+
+Với những thay đổi liên quan tới flow xử lý chính (routing, data fetching, state management...), hãy thêm comment mô tả ngắn hoặc viết log hợp lý.  
+Điều này hỗ trợ rất nhiều trong quá trình review và debug sau này.
+
+---

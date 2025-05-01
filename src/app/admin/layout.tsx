@@ -59,7 +59,6 @@ export default function AdminLayout({
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container flex h-14 items-center">
-          <AdminNav />
           <div className="flex flex-1 items-center justify-end space-x-2">
             <ThemeToggle />
             <UserNav />
@@ -67,11 +66,13 @@ export default function AdminLayout({
         </div>
       </header>
       <main className="flex-1">
-        <div className="flex h-screen bg-gray-100">
+        <div className="flex h-screen">
           {/* Sidebar */}
-          <div className="w-64 bg-white shadow-lg">
+          <div className="w-64 bg-card shadow-lg">
             <div className="flex h-16 items-center justify-center border-b">
-              <h1 className="text-xl font-bold text-gray-800">Admin Panel</h1>
+              <h1 className="text-xl font-bold text-card-foreground">
+                Admin Panel
+              </h1>
             </div>
             <nav className="mt-4">
               {adminMenuItems.map((item) => (
@@ -79,8 +80,8 @@ export default function AdminLayout({
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "flex items-center space-x-3 px-6 py-3 text-gray-600 hover:bg-gray-50",
-                    pathname === item.href && "bg-gray-50 text-primary"
+                    "flex items-center space-x-3 px-6 py-3 text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+                    pathname === item.href && "bg-accent text-accent-foreground"
                   )}
                 >
                   <span>{item.icon}</span>
